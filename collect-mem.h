@@ -12,7 +12,7 @@ struct BWMonAttr{
     float bw;
     float freq;
     float sat;
-    float dur;
+    int dur;
 };
 
 
@@ -22,7 +22,7 @@ struct MemBusAttr{
     // info from bw_mon
     struct BWMonAttr mfc0;
     struct BWMonAttr mfc1;
-    struct BWMonAttr gsc23Bw;
+    struct BWMonAttr gsc23;
     struct BWMonAttr isp0;
     struct BWMonAttr isp1;
     struct BWMonAttr gen;
