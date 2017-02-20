@@ -18,7 +18,8 @@
 /* global vars */
 struct CPUGPUAttr cpugpuData;
 struct MemBusAttr memData;
-char outFileName[OUTFNAME_NAME_LEN];
+char fnameMemInfo[OUTFNAME_NAME_LEN];
+char fnameCPUGPUInfo[OUTFNAME_NAME_LEN];
 
 struct itimerval tick; // timer tick
 
@@ -83,9 +84,9 @@ void _debug_memData(){
 // log perf stat output
 void outputResults(int sCount){
     FILE *fp;
-    fp = fopen(outFileName, "a");
+    fp = fopen(fnameMemInfo, "a");
     if(fp == NULL){
-        DEBUG(("OutputResults:: Error - Couldn't open file - %s \n", outFileName));
+        DEBUG(("OutputResults:: Error - Couldn't open file - %s \n", fnameMemInfo));
     }else{
 
         // write the different data to file
@@ -146,11 +147,12 @@ int main(int argc, char** argv) {
    DEBUG(("------ Starting Performance Data Collection ---------\n"));
 
    // save output file name
-   if(argc == 2){
-       strcpy (outFileName,argv[1]);
+   if(argc == 3){
+       strcpy (fnameMemInfo,argv[1]);
+       strcpy (fnameCPUGPUInfo,argv[2]);
    }
    else{
-       DEBUG(("main:: Error - not enough arguments : usage: ./android-perfstats-collector <outfile>"));
+       DEBUG(("main:: Error - not enough arguments : usage: ./android-perfstats-collector <outfile>\n"));
    }
 
    // periodically query stats
@@ -164,7 +166,7 @@ int main(int argc, char** argv) {
         getMemStats(&memData, count);
 
         //_debug_cpugpuData();
-        _debug_memData();
+        //_debug_memData();
 
         outputResults(count);
 

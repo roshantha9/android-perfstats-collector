@@ -147,7 +147,7 @@ void getMemStats(struct MemBusAttr *memAttr, int sampleCount){
                 memAttr->isp1.dur=duration;
 
             }else{
-                DEBUG(("getMemStats:: WARNING : unknown bwprobe member detected"));
+                DEBUG(("getMemStats:: WARNING : unknown bwprobe member detected\n"));
             }
 
 

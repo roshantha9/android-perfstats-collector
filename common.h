@@ -8,6 +8,6 @@
 #define OUTFNAME_NAME_LEN 256
 
 // sampling period (usec)
-# define  SAMPLING_PERIOD  500000
+# define  SAMPLING_PERIOD  200000
 
 #endif // __COMMON_H_INCLUDED__

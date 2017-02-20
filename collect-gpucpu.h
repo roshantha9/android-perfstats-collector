@@ -29,7 +29,7 @@ struct CPUGPUAttr{
 
 /* functions */
 void getCPUGPUStats(struct CPUGPUAttr *cgAttr, int sampleCount);
-
+int getCurCPUFreq(void);
 
 
 #endif // __COLLECT_GPUCPU_H_INCLUDED__
