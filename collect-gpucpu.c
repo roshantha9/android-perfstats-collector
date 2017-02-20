@@ -10,18 +10,25 @@ void getCPUGPUStats(struct CPUGPUAttr *cgAttr, int sampleCount){
     char buff[BUFF_SIZE];
     int coreId;
     int coreUtil;
-    int curCPUFreq;
+    int curCPUFreq, curGPUFreq;
+    int curGPUUtil;
     int i,coreCounter=0;
     unsigned long long cpuinfo[10], busy, nice_busy, idle, busysub, nice_busysub, idlesub;
 
     DEBUG(("-- getCPUGPUStats -- %d\n", sampleCount));
     curCPUFreq = getCurCPUFreq();
+    curGPUFreq = getCurGPUFreq();
+    curGPUUtil = getCurGPUUtil();
 
-    // save curfreq
+    // save data
     cgAttr->cpuFreq = curCPUFreq;
+    cgAttr->gpuFreq = curGPUFreq;
+    cgAttr->gpuUtil = curGPUUtil;
 
     DEBUG(("curCPUFreq = %d\n", curCPUFreq));
 
+
+    // get the CPU utilisation per core from proc/stat
     fp = fopen(PATH_RD_PROCSTAT, "r");
     if(fp){
 
@@ -74,7 +81,7 @@ void getCPUGPUStats(struct CPUGPUAttr *cgAttr, int sampleCount){
 
 }
 
-
+/* get currect CPU frequency*/
 int getCurCPUFreq(void){
 	int freq;
 	FILE *fp = fopen(PATH_RD_CPUFREQ, "r");
@@ -88,6 +95,31 @@ int getCurCPUFreq(void){
 	return freq;
 }
 
+/* get currect GPU frequency*/
+int getCurGPUFreq(void){
+	int freq;
+	FILE *fp = fopen(PATH_RD_GPUFREQ, "r");
+	if(fp){
+		fscanf(fp, "%d", &freq);
+		fclose(fp);
+	}else{
+	    DEBUG(("getCurGPUFreq:: Error - failed to open - %s\n", PATH_RD_GPUFREQ));
+		exit(0);
+	}
+	return freq;
+}
 
-
+/* get currect GPU utilisation*/
+int getCurGPUUtil(void){
+	int util;
+	FILE *fp = fopen(PATH_RD_GPUUTIL, "r");
+	if(fp){
+		fscanf(fp, "%d", &util);
+		fclose(fp);
+	}else{
+	    DEBUG(("getCurGPUUtil:: Error - failed to open - %s\n", PATH_RD_GPUUTIL));
+		exit(0);
+	}
+	return util;
+}
 

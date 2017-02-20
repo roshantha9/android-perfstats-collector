@@ -19,7 +19,7 @@ struct CPUGPUAttr{
     // utilisation
     struct CoreAttr cpuCoreSet[NUM_CPU_CORES];
 
-    float gpuUtil;
+    int gpuUtil;
 
     // frequency
     int cpuFreq;
@@ -33,6 +33,8 @@ struct CPUGPUAttr{
 /* functions */
 void getCPUGPUStats(struct CPUGPUAttr *cgAttr, int sampleCount);
 int getCurCPUFreq(void);
+int getCurGPUFreq(void);
+int getCurGPUUtil(void);
 
 
 #endif // __COLLECT_GPUCPU_H_INCLUDED__

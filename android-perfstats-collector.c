@@ -37,8 +37,9 @@ void _debug_cpugpuData(){
     DEBUG(("\n--_debug_cpugpuData-\n"));
 
     for(i = 0;i < NUM_CPU_CORES;i++){
-        DEBUG(("cpu%d - %llu, %llu, %llu, %d\n", \
-        i, cpugpuData.cpuCoreSet[i].busy, cpugpuData.cpuCoreSet[i].niceBusy, cpugpuData.cpuCoreSet[i].idle, cpugpuData.cpuFreq));
+        DEBUG(("cpu%d - %llu, %llu, %llu, %d, %d, %d\n", \
+        i, cpugpuData.cpuCoreSet[i].busy, cpugpuData.cpuCoreSet[i].niceBusy, cpugpuData.cpuCoreSet[i].idle, \
+        cpugpuData.cpuFreq, cpugpuData.gpuFreq, cpugpuData.gpuUtil));
     }
 
     DEBUG(("\n---\n"));
@@ -132,19 +133,22 @@ void outputResultsCPUGPU(int sCount){
     }else{
 
         // write the different data to file
-        // count, freq, {busy, nicebusy, idle} - per CPU
+        // count, freq, {busy, nicebusy, idle} - per CPU, gpufreq, gpuutil
         fprintf(fp, "%d, %d,"
                 // fixed for 4 cores
                 "%llu,%llu,%llu,"
                 "%llu,%llu,%llu,"
                 "%llu,%llu,%llu,"
-                "%llu,%llu,%llu\n",
+                "%llu,%llu,%llu,"
+                "%d,%d\n",
 
                     sCount, cpugpuData.cpuFreq,
                     cpugpuData.cpuCoreSet[0].busy, cpugpuData.cpuCoreSet[0].niceBusy, cpugpuData.cpuCoreSet[0].idle,
                     cpugpuData.cpuCoreSet[1].busy, cpugpuData.cpuCoreSet[1].niceBusy, cpugpuData.cpuCoreSet[1].idle,
                     cpugpuData.cpuCoreSet[2].busy, cpugpuData.cpuCoreSet[2].niceBusy, cpugpuData.cpuCoreSet[2].idle,
-                    cpugpuData.cpuCoreSet[3].busy, cpugpuData.cpuCoreSet[3].niceBusy, cpugpuData.cpuCoreSet[3].idle
+                    cpugpuData.cpuCoreSet[3].busy, cpugpuData.cpuCoreSet[3].niceBusy, cpugpuData.cpuCoreSet[3].idle,
+                    cpugpuData.gpuFreq,
+                    cpugpuData.gpuUtil
                 );
 
     }
@@ -193,10 +197,6 @@ int main(int argc, char** argv) {
 
         usleep(SAMPLING_PERIOD);
         count++;
-
-
-
-
 
    }
 

@@ -6,5 +6,8 @@
 #define PATH_RD_PROCSTAT    "/proc/stat"
 #define PATH_RD_GPUUTIL     "/sys/module/pvrsrvkm/parameters/sgx_gpu_utilization"
 #define PATH_RD_CPUFREQ     "/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"
+#define PATH_RD_GPUFREQ     "/sys/module/pvrsrvkm/parameters/sgx_gpu_clk"
+
+
 
 #endif // __COLLECT_GPUCPU_H_INCLUDED__
