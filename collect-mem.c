@@ -100,8 +100,8 @@ void getMemStats(struct MemBusAttr *memAttr, int sampleCount){
                 //DEBUG(("--here mem0_1\n"));
                 memAttr->mem1_0.bw=bw;
                 memAttr->mem1_0.freq=freq;
-                memAttr->mem0_1.sat=sat;
-                memAttr->mem0_1.dur=duration;
+                memAttr->mem1_0.sat=sat;
+                memAttr->mem1_0.dur=duration;
 
             }else if(strstr(buff, "mem1_1")){
                 //DEBUG(("--here mem1_1\n"));
@@ -158,6 +158,7 @@ void getMemStats(struct MemBusAttr *memAttr, int sampleCount){
         DEBUG(("getMemStats:: Error - failed to open - %s\n", PATH_RD_BW_MON));
     }
 
+    // close file
     fclose(fp);
 
 }
