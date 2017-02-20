@@ -28,33 +28,19 @@ struct itimerval tick; // timer tick
 void initialise(){
 
     /* init cpugpu structures */
-    cpugpuData.cpu0Util=0.0;
-    cpugpuData.cpu1Util=0.0;
-    cpugpuData.cpu2Util=0.0;
-    cpugpuData.cpu3Util=0.0;
-
-    cpugpuData.gpuUtil=0.0;
-
-    cpugpuData.cpuFreq=0.0;
-    cpugpuData.gpuFreq=0.0;
-
-    cpugpuData.numCores=0;
-    cpugpuData.clusterConfig=0;
+    return;
 }
 
 
 void _debug_cpugpuData(){
+    int i;
     DEBUG(("\n--_debug_cpugpuData-\n"));
-    DEBUG(("%.2f,", cpugpuData.cpu0Util));
-    DEBUG(("%.2f,", cpugpuData.cpu1Util));
-    DEBUG(("%.2f,", cpugpuData.cpu2Util));
-    DEBUG(("%.2f,", cpugpuData.cpu3Util));
 
-    DEBUG(("%.2f,", cpugpuData.gpuUtil));
-    DEBUG(("%.2f,", cpugpuData.cpuFreq));
-    DEBUG(("%.2f,", cpugpuData.gpuFreq));
-    DEBUG(("%d,", cpugpuData.numCores));
-    DEBUG(("%d", cpugpuData.clusterConfig));
+    for(i = 0;i < NUM_CPU_CORES;i++){
+        DEBUG(("cpu%d - %llu, %llu, %llu, %d\n", \
+        i, cpugpuData.cpuCoreSet[i].busy, cpugpuData.cpuCoreSet[i].niceBusy, cpugpuData.cpuCoreSet[i].idle, cpugpuData.cpuFreq));
+    }
+
     DEBUG(("\n---\n"));
 }
 
@@ -81,12 +67,13 @@ void _debug_memData(){
 
 
 
-// log perf stat output
-void outputResults(int sCount){
+// log perf stat output for mem related data
+void outputResultsMem(int sCount){
     FILE *fp;
     fp = fopen(fnameMemInfo, "a");
     if(fp == NULL){
         DEBUG(("OutputResults:: Error - Couldn't open file - %s \n", fnameMemInfo));
+        exit(0);
     }else{
 
         // write the different data to file
@@ -128,11 +115,43 @@ void outputResults(int sCount){
                 );
 
     }
-
     fclose(fp);
     return;
 
 }
+
+
+
+// log perf stat output for mem related data
+void outputResultsCPUGPU(int sCount){
+    FILE *fp;
+    fp = fopen(fnameCPUGPUInfo, "a");
+    if(fp == NULL){
+        DEBUG(("OutputResults:: Error - Couldn't open file - %s \n", fnameCPUGPUInfo));
+        exit(0);
+    }else{
+
+        // write the different data to file
+        // count, freq, {busy, nicebusy, idle} - per CPU
+        fprintf(fp, "%d, %d,"
+                // fixed for 4 cores
+                "%llu,%llu,%llu,"
+                "%llu,%llu,%llu,"
+                "%llu,%llu,%llu,"
+                "%llu,%llu,%llu\n",
+
+                    sCount, cpugpuData.cpuFreq,
+                    cpugpuData.cpuCoreSet[0].busy, cpugpuData.cpuCoreSet[0].niceBusy, cpugpuData.cpuCoreSet[0].idle,
+                    cpugpuData.cpuCoreSet[1].busy, cpugpuData.cpuCoreSet[1].niceBusy, cpugpuData.cpuCoreSet[1].idle,
+                    cpugpuData.cpuCoreSet[2].busy, cpugpuData.cpuCoreSet[2].niceBusy, cpugpuData.cpuCoreSet[2].idle,
+                    cpugpuData.cpuCoreSet[3].busy, cpugpuData.cpuCoreSet[3].niceBusy, cpugpuData.cpuCoreSet[3].idle
+                );
+
+    }
+    fclose(fp);
+    return;
+}
+
 
 
 
@@ -153,6 +172,7 @@ int main(int argc, char** argv) {
    }
    else{
        DEBUG(("main:: Error - not enough arguments : usage: ./android-perfstats-collector <outfile>\n"));
+       exit(0);
    }
 
    // periodically query stats
@@ -160,16 +180,16 @@ int main(int argc, char** argv) {
 
    while(1){
 
-        initialise();
+        //initialise();
 
         getCPUGPUStats(&cpugpuData, count);
         getMemStats(&memData, count);
 
-        //_debug_cpugpuData();
+        _debug_cpugpuData();
         //_debug_memData();
 
-        outputResults(count);
-
+        outputResultsMem(count);
+        outputResultsCPUGPU(count);
 
         usleep(SAMPLING_PERIOD);
         count++;

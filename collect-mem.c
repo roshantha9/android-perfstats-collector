@@ -21,7 +21,7 @@ void getMemStats(struct MemBusAttr *memAttr, int sampleCount){
         // loop through each line and get bus stats
         while(fgets(buff, BUFF_SIZE, fp)){
 
-            DEBUG(("line %d:: %s", lineCount, buff));
+            //DEBUG(("line %d:: %s", lineCount, buff));
 
             // get data for each member in the busprobe
             // original printf formatting in the kernel debug : "%-10s %4u.%02u MBps %3u.%02u MHz %2u.%02u%% during %lld us\n"
@@ -148,18 +148,23 @@ void getMemStats(struct MemBusAttr *memAttr, int sampleCount){
 
             }else{
                 DEBUG(("getMemStats:: WARNING : unknown bwprobe member detected\n"));
+                // close file
+                fclose(fp);
+                exit(0);
             }
 
 
             lineCount++;
         }
 
+        fclose(fp);
+
     }else{
         DEBUG(("getMemStats:: Error - failed to open - %s\n", PATH_RD_BW_MON));
+        exit(0);
     }
 
-    // close file
-    fclose(fp);
+
 
 }
 

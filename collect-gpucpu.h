@@ -5,24 +5,27 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
+#include "common.h"
 
 /* structures */
+struct CoreAttr{
+    int online;
+    unsigned long long busy;
+    unsigned long long niceBusy;
+    unsigned long long idle;
+};
 
 struct CPUGPUAttr{
     // utilisation
-    float cpu0Util;
-    float cpu1Util;
-    float cpu2Util;
-    float cpu3Util;
+    struct CoreAttr cpuCoreSet[NUM_CPU_CORES];
+
     float gpuUtil;
 
     // frequency
-    float cpuFreq;
-    float gpuFreq;
+    int cpuFreq;
+    int gpuFreq;
 
     // misc
-    int numCores;
     int clusterConfig;
 };
 
