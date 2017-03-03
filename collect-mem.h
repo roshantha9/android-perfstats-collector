@@ -50,7 +50,8 @@ struct MemBusAttr{
 
 /* functions */
 void getMemStats(struct MemBusAttr *memAttr, int sampleCount);
-
+int getCurMIFFreq(void);
+int getCurINTFreq(void);
 
 
 #endif // __COLLECT_MEM_H_INCLUDED__

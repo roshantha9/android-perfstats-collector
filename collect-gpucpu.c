@@ -6,14 +6,12 @@
 
 void getCPUGPUStats(struct CPUGPUAttr *cgAttr, int sampleCount){
     FILE *fp;
-    int lineCount=0;
     char buff[BUFF_SIZE];
     int coreId;
-    int coreUtil;
     int curCPUFreq, curGPUFreq;
     int curGPUUtil;
-    int i,coreCounter=0;
-    unsigned long long cpuinfo[10], busy, nice_busy, idle, busysub, nice_busysub, idlesub;
+    int coreCounter=0;
+    unsigned long long cpuinfo[10], busy, nice_busy, idle;
 
     DEBUG(("-- getCPUGPUStats -- %d\n", sampleCount));
     curCPUFreq = getCurCPUFreq();
@@ -37,7 +35,6 @@ void getCPUGPUStats(struct CPUGPUAttr *cgAttr, int sampleCount){
 		{
 			if(strstr(buff, "cpu"))
 			{
-				coreUtil=0;
 				// time(unit: jiffies) spent of all cpus for: user nice system idle iowait irq softirq stead guest
 				// get info
 				sscanf(buff, "cpu%d %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu",\

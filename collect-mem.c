@@ -11,9 +11,17 @@ void getMemStats(struct MemBusAttr *memAttr, int sampleCount){
     char name[10];
     float bw, freq, sat;
     int duration;
+    int curMIFFreq, curINTFreq;
 
     DEBUG(("-- getMemStats -- %d\n", sampleCount));
 
+    /* get memory frequencies */
+    curMIFFreq = getCurMIFFreq();
+    curINTFreq = getCurINTFreq();
+    memAttr->freqBusFreqMIF = curMIFFreq;
+    memAttr->freqBusFreqINT = curINTFreq;
+
+    /* get memory stats from runtime bw monitor */
     fp = fopen(PATH_RD_BW_MON, "r");
     if(fp){
         //fgets(buff, BUFF_SIZE, fp); // ignore first line (headers)
@@ -163,12 +171,36 @@ void getMemStats(struct MemBusAttr *memAttr, int sampleCount){
         DEBUG(("getMemStats:: Error - failed to open - %s\n", PATH_RD_BW_MON));
         exit(0);
     }
-
-
-
 }
 
 
 
+/* get current MIF frequency*/
+int getCurMIFFreq(void){
+	int freq;
+	FILE *fp = fopen(PATH_RD_MIF_CUR_FREQ, "r");
+	if(fp){
+		fscanf(fp, "%d", &freq);
+		fclose(fp);
+	}else{
+	    DEBUG(("getCurMIFFreq:: Error - failed to open - %s\n", PATH_RD_MIF_CUR_FREQ));
+		exit(0);
+	}
+	return freq;
+}
+
+/* get current INT frequency*/
+int getCurINTFreq(void){
+	int freq;
+	FILE *fp = fopen(PATH_RD_INT_CUR_FREQ, "r");
+	if(fp){
+		fscanf(fp, "%d", &freq);
+		fclose(fp);
+	}else{
+	    DEBUG(("getCurINTFreq:: Error - failed to open - %s\n", PATH_RD_INT_CUR_FREQ));
+		exit(0);
+	}
+	return freq;
+}
 
 

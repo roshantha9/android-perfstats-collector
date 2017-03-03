@@ -3,8 +3,11 @@ TOOLCHAIN = $(ANDROID_NDK_TOOLCHAIN_ROOT)
 SYSROOT = $(TOOLCHAIN)/sysroot
 GCC = $(TOOLCHAIN)/bin/arm-linux-androideabi-gcc
 STRIP = $(TOOLCHAIN)/bin/arm-linux-androideabi-strip
-CFLAGS = -march=armv7-a -mfloat-abi=softfp -I$(SYSROOT)/usr/include -std=c99 -pedantic -Wall -Wpointer-arith -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -Wextra -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-declarations -Wmissing-include-dirs -Wredundant-decls -Wshadow -Wsign-conversion -Wstrict-overflow=5 -Wswitch-default -Wundef -Wno-unused
-#-pedantic -Wall -Wshadow -Wpointer-arith -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes
+CFLAGS = -march=armv7-a -mfloat-abi=softfp -I$(SYSROOT)/usr/include -std=c99 -pedantic -Wall \
+		-Wpointer-arith -Wcast-qual -Wextra -Wcast-align -Wcast-qual -Wdisabled-optimization  \
+		-Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wredundant-decls -Wshadow -Wsign-conversion  \
+		-Wstrict-overflow=5 -Wswitch-default -Wundef -Wstrict-prototypes  \
+		-Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wmissing-declarations
 LDFLAGS = -Wl,--fix-cortex-a8 -L$(SYSROOT)/usr/lib
 
 DEPS = android-perfstats-collector.h collect-gpucpu.h collect-mem.h locations.h common.h debug.h

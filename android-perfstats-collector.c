@@ -63,6 +63,7 @@ void _debug_memData(){
     DEBUG((">>_debug_memData :: gsc1, %4.2f, %3.2f, %2.2f, %d\n", memData.gsc1.bw, memData.gsc1.freq, memData.gsc1.sat, memData.gsc1.dur));
     DEBUG((">>_debug_memData :: disp0, %4.2f, %3.2f, %2.2f, %d\n", memData.disp0.bw, memData.disp0.freq, memData.disp0.sat, memData.disp0.dur));
     DEBUG((">>_debug_memData :: disp1, %4.2f, %3.2f, %2.2f, %d\n", memData.disp1.bw, memData.disp1.freq, memData.disp1.sat, memData.disp1.dur));
+    DEBUG((">>_debug_memData :: MIFfreq: %d, INTfreq: %d\n", memData.freqBusFreqMIF, memData.freqBusFreqINT));
     DEBUG(("\n---\n"));
 }
 
@@ -94,7 +95,7 @@ void outputResultsMem(int sCount){
                 //"%4.2f,%3.2f,%2.2f,%d,"
                 //"%4.2f,%3.2f,%2.2f,%d,"
                 //"%4.2f,%3.2f,%2.2f,%d,"
-                "%4.2f,%3.2f,%2.2f,%d\n",
+                "%4.2f,%3.2f,%2.2f,%d,%d,%d\n",
 
                     sCount,
                     memData.mfc0.bw, memData.mfc0.freq, memData.mfc0.sat, memData.mfc0.dur,
@@ -112,7 +113,8 @@ void outputResultsMem(int sCount){
                     //memData.gsc0.bw, memData.gsc0.freq, memData.gsc0.sat, memData.gsc0.dur,
                     //memData.gsc1.bw, memData.gsc1.freq, memData.gsc1.sat, memData.gsc1.dur,
                     //memData.disp0.bw, memData.disp0.freq, memData.disp0.sat, memData.disp0.dur,
-                    memData.disp1.bw, memData.disp1.freq, memData.disp1.sat, memData.disp1.dur
+                    memData.disp1.bw, memData.disp1.freq, memData.disp1.sat, memData.disp1.dur,
+                    memData.freqBusFreqMIF, memData.freqBusFreqINT
                 );
 
     }
@@ -189,7 +191,7 @@ int main(int argc, char** argv) {
         getCPUGPUStats(&cpugpuData, count);
         getMemStats(&memData, count);
 
-        _debug_cpugpuData();
+        //_debug_cpugpuData();
         //_debug_memData();
 
         outputResultsMem(count);
