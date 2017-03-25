@@ -13,8 +13,6 @@
 #include "common.h"
 
 
-
-
 /* global vars */
 struct CPUGPUAttr cpugpuData;
 struct MemBusAttr memData;
