@@ -194,7 +194,8 @@ int main(int argc, char** argv) {
 
         outputResultsMem(count);
         outputResultsCPUGPU(count);
-
+	
+	//printf("SAMPLING_PERIOD : %d\n", SAMPLING_PERIOD);
         usleep(SAMPLING_PERIOD);
         count++;
 

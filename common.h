@@ -8,7 +8,9 @@
 #define OUTFNAME_NAME_LEN 256
 
 // sampling period (usec)
-#define  SAMPLING_PERIOD  200000
+//#define  SAMPLING_PERIOD  200000 // original
+#define  SAMPLING_PERIOD  50000 // 50ms
+
 
 // number of CPUs in the platform
 #define NUM_CPU_CORES   4
